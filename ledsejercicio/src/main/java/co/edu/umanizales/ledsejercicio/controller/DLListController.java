@@ -75,7 +75,7 @@ public class DLListController {
     }
 
     @GetMapping(path = "add/{id}")
-    public ResponseEntity<ResponseDTO> getBulbs(@PathVariable String id) {
+    public ResponseEntity<ResponseDTO> add(@PathVariable String id) {
 
         try {
 
@@ -89,6 +89,23 @@ public class DLListController {
         return new ResponseEntity<>(new ResponseDTO(
                 200, "la bombilla fue añadadida", null), HttpStatus.OK);
     }
+
+    @GetMapping(path = "addtostart/{id}")
+    public ResponseEntity<ResponseDTO> addToStart(@PathVariable String id) {
+
+        try {
+
+            DLListService.getBulbs().addToStart(new LedBulb(id));
+
+        } catch (DLListException e) {
+            return new ResponseEntity<>(new ResponseDTO(
+                    204,e.getMessage(),
+                    null), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new ResponseDTO(
+                200, "la bombilla fue añadadida", null), HttpStatus.OK);
+    }
+
 
     @GetMapping(path = "turnbulbon/{place}")
     public ResponseEntity<ResponseDTO> turnBulbOn(@PathVariable int place) {
@@ -183,7 +200,7 @@ public class DLListController {
     }
 
     @GetMapping(path = "lightshow")
-    public ResponseEntity<ResponseDTO> waveBackwards() {
+    public ResponseEntity<ResponseDTO> lightshow() {
 
         try {
             DLListService.getBulbs().lightShow();
